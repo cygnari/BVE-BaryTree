@@ -5,26 +5,26 @@ set(default_build_type "Release")
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
-    
+
     set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE
         STRING "Choose the type of build." FORCE)
 
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
                 "Debug" "Release" "None")
 endif()
- 
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
-option(BUILD_EXAMPLES "build examples with Zoltan"              ON)
+option(BUILD_ZOLTAN_EXAMPLES "build examples with Zoltan"    ON)
 option(ENABLE_GPU_BUILD "build OpenACC GPU version"             ON)
 option(BUILD_SHARED_LIBS "build libraries as shared objects"	ON)
 
 find_package(MPI    REQUIRED)
 find_package(OpenMP REQUIRED)
 
-if(BUILD_EXAMPLES OR BUILD_TESTS)
+if(BUILD_ZOLTAN_EXAMPLES OR BUILD_TESTS)
     find_package(Zoltan REQUIRED)
     add_library(Zoltan_Interface INTERFACE)
     target_link_libraries(Zoltan_Interface INTERFACE zoltan)
@@ -35,7 +35,7 @@ endif()
 set_property(TARGET OpenMP::OpenMP_C APPEND
                                      PROPERTY
                                          INTERFACE_LINK_LIBRARIES
-                                         $<$<C_COMPILER_ID:PGI>:-mp>) 
+                                         $<$<C_COMPILER_ID:PGI>:-mp>)
 
 #Creating an interface for OpenACC
 add_library(OpenACC_C INTERFACE)
