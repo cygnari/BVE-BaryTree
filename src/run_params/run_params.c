@@ -20,7 +20,7 @@ void RunParams_Setup(struct RunParams **run_params_addr,
                      double size_check_factor, double beta, int verbosity)
 {
     RunParams_Free(run_params_addr);
-    *run_params_addr = malloc(sizeof (struct RunParams));  
+    *run_params_addr = malloc(sizeof (struct RunParams));
     struct RunParams *run_params = *run_params_addr;
 
     run_params->verbosity = verbosity;
@@ -34,84 +34,84 @@ void RunParams_Setup(struct RunParams **run_params_addr,
     run_params->approximation = approximation;
     run_params->singularity = singularity;
     run_params->compute_type = compute_type;
-    
+
     if (beta < 0 || beta > 1) {
-    
+
         run_params->beta = -1;
-        
+
         run_params->theta = theta;
         run_params->interp_degree = interp_degree;
         run_params->size_check_factor = size_check_factor;
-        
+
         run_params->max_per_source_leaf = max_per_source_leaf;
         run_params->max_per_target_leaf = max_per_target_leaf;
-    
+
         run_params->interp_pts_per_cluster = (interp_degree+1) * (interp_degree+1) * (interp_degree+1);
-    
+
     } else {
-    
+
         run_params->beta = beta;
-        
+
         double theta_min, theta_max;
         double n_min, n_max;
         double exp_s, exp_t;
-        
+
         if (compute_type == PARTICLE_CLUSTER || compute_type == CLUSTER_PARTICLE) {
             if (approximation == LAGRANGE) {
                 run_params->size_check_factor = 1.0;
-                
+
                 theta_min = 0.55;
                 theta_max = 0.95;
                 exp_s = 2;
-                
+
                 n_min = 1;
                 n_max = 12;
                 exp_t = 3;
-                
+
             } else { // HERMITE
                 run_params->size_check_factor = 4.0;
-                
+
                 theta_min = 0.55;
                 theta_max = 0.95;
                 exp_s = 2;
-                
+
                 n_min = 1;
                 n_max = 9;
                 exp_t = 3;
             }
-        
+
         } else { // CLUSTER_CLUSTER
             run_params->size_check_factor = 1.0;
-            
+
             theta_min = 0.55;
             theta_max = 0.95;
             exp_s = 1.75;
-                
+
             n_min = 1;
             n_max = 12;
             exp_t = 3;
         }
-        
+
         run_params->theta = theta_max - (theta_max - theta_min) * pow(beta, exp_s);
         run_params->interp_degree = (int) (n_max - (n_max - n_min) * pow(1. - beta, exp_t));
-        
+
         run_params->interp_pts_per_cluster = (run_params->interp_degree + 1)
                                            * (run_params->interp_degree + 1)
                                            * (run_params->interp_degree + 1);
-    
+
         #ifdef OPENACC_ENABLED
             run_params->max_per_source_leaf = 3000;
             run_params->max_per_target_leaf = 3000;
-            
+
         #else // CPU
             if (compute_type == PARTICLE_CLUSTER) {
                 run_params->max_per_source_leaf = 50;
                 run_params->max_per_target_leaf = 5;
-                
+
             } else if (compute_type == CLUSTER_PARTICLE) {
                 run_params->max_per_source_leaf = 5;
                 run_params->max_per_target_leaf = 50;
-                
+
             } else { // CLUSTER_CLUSTER
                 run_params->max_per_source_leaf = 50;
                 run_params->max_per_target_leaf = 50;
@@ -124,7 +124,7 @@ void RunParams_Setup(struct RunParams **run_params_addr,
 
     if (run_params->approximation == HERMITE) run_params->interp_charges_per_cluster *=8;
 
-    if (run_params->approximation == HERMITE && run_params->singularity == SUBTRACTION) 
+    if (run_params->approximation == HERMITE && run_params->singularity == SUBTRACTION)
         run_params->interp_weights_per_cluster *=8;
 
     return;
@@ -142,7 +142,7 @@ void RunParams_Validate(struct RunParams *run_params)
 
     if (run_params->approximation == HERMITE) run_params->interp_charges_per_cluster *=8;
 
-    if (run_params->approximation == HERMITE && run_params->singularity == SUBTRACTION) 
+    if (run_params->approximation == HERMITE && run_params->singularity == SUBTRACTION)
         run_params->interp_weights_per_cluster *=8;
 
     return;
@@ -154,11 +154,12 @@ void RunParams_Free(struct RunParams **run_params_addr)
 {
     struct RunParams *run_params = *run_params_addr;
 
-    if (run_params != NULL) {
-	    if (run_params->num_kernel_params > 0) free_vector(run_params->kernel_params);
-        free(run_params);
-    }
-    
+    // if (run_params != NULL) {
+	  //   if (run_params->num_kernel_params > 0) free(run_params);
+    //
+    // }
+    // free_vector(run_params->kernel_params)
+
     run_params = NULL;
 
     return;
