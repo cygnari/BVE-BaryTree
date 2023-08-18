@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     int maxPerBatch = 500;
     double sizeCheck = 1.0;
 
-    int verbosity = 0;
+    int verbosity = 3;
 
     double *xS = malloc(numSources * sizeof(double));
     double *yS = malloc(numSources * sizeof(double));

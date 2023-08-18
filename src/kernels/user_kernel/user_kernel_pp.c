@@ -31,19 +31,27 @@ void K_User_Kernel_PP(int number_of_targets_in_batch, int number_of_source_point
         double ty = target_y[starting_index_of_target + i];
         double tz = target_z[starting_index_of_target + i];
 
+
 #ifdef OPENACC_ENABLED
         #pragma acc loop independent reduction(+:temporary_potential)
 #endif
         for (int j = 0; j < number_of_source_points_in_cluster; j++) {
 
-            double dx = tx - source_x[starting_index_of_source + j];
-            double dy = ty - source_y[starting_index_of_source + j];
-            double dz = tz - source_z[starting_index_of_source + j];
-            double r  = sqrt(dx*dx + dy*dy + dz*dz);
+            // double dx = tx - source_x[starting_index_of_source + j];
+            // double dy = ty - source_y[starting_index_of_source + j];
+            // double dz = tz - source_z[starting_index_of_source + j];
+            // double r  = sqrt(dx*dx + dy*dy + dz*dz);
+            //
+            // if (r > DBL_MIN) {
+            //     temporary_potential += source_charge[starting_index_of_source + j] * exp(-kernel_parameter*r) / r;
+            // }
 
-            if (r > DBL_MIN) {
-                temporary_potential += source_charge[starting_index_of_source + j] * exp(-kernel_parameter*r) / r;
-            }
+            double sx = source_x[starting_index_of_source + j];
+            double sy = source_y[starting_index_of_source + j];
+            double sz = source_z[starting_index_of_source + j];
+            
+            temporary_potential = ty * sz - tz * sy;
+            temporary_potential *= 1.0 / (1 - tx * sx - ty * sy - tz * sz);
         } // end loop over interpolation points
 #ifdef OPENACC_ENABLED
         #pragma acc atomic
