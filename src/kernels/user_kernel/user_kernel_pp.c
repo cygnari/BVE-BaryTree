@@ -26,6 +26,7 @@ void K_User_Kernel_PP(int number_of_targets_in_batch, int number_of_source_point
         for (int i = 0; i < number_of_targets_in_batch; i++) {
 
         double temporary_potential = 0.0;
+        double temp;
 
         double tx = target_x[starting_index_of_target + i];
         double ty = target_y[starting_index_of_target + i];
@@ -49,9 +50,11 @@ void K_User_Kernel_PP(int number_of_targets_in_batch, int number_of_source_point
             double sx = source_x[starting_index_of_source + j];
             double sy = source_y[starting_index_of_source + j];
             double sz = source_z[starting_index_of_source + j];
-            
-            temporary_potential = ty * sz - tz * sy;
-            temporary_potential *= 1.0 / (1 - tx * sx - ty * sy - tz * sz);
+
+            temp = ty * sz - tz * sy;
+            temp *= 1.0 / (1 - tx * sx - ty * sy - tz * sz);
+            temp *= source_charge[starting_index_of_source + j];
+            temporary_potential += temp;
         } // end loop over interpolation points
 #ifdef OPENACC_ENABLED
         #pragma acc atomic

@@ -26,6 +26,7 @@ void K_User_Kernel_CP_Lagrange(int number_of_sources_in_batch, int number_of_int
     for (int i = 0; i < number_of_interpolation_points_in_cluster; i++) {
 
         double temporary_potential = 0.0;
+        double temp;
 
         double cx = cluster_x[starting_index_of_cluster + i];
         double cy = cluster_y[starting_index_of_cluster + i];
@@ -46,14 +47,16 @@ void K_User_Kernel_CP_Lagrange(int number_of_sources_in_batch, int number_of_int
             double sx = source_x[jj];
             double sy = source_y[jj];
             double sz = source_z[jj];
-            temporary_potential = cy * sz - cz * sy;
-            temporary_potential *= 1.0 / (1 - cx * sx - cy * sy - cz * sz);
+            temp = cy * sz - cz * sy;
+            temp *= 1.0 / (1 - cx * sx - cy * sy - cz * sz);
+            temp *= source_q[jj];
             // double dx = cx - source_x[jj];
             // double dy = cy - source_y[jj];
             // double dz = cz - source_z[jj];
             // double r = sqrt(dx*dx + dy*dy + dz*dz);
             //
             // temporary_potential += source_q[jj] * exp(-kernel_parameter * r) / r;
+            temporary_potential += temp;
 
         } // end loop over interpolation points
 #ifdef OPENACC_ENABLED
