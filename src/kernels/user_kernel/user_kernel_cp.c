@@ -14,7 +14,6 @@ void K_User_Kernel_CP_Lagrange(int number_of_sources_in_batch, int number_of_int
 {
 
     double kernel_parameter = run_params->kernel_params[0];
-    printf("CP");
 
 #ifdef OPENACC_ENABLED
     #pragma acc kernels async(gpu_async_stream_id) present(source_x, source_y, source_z, source_q, \

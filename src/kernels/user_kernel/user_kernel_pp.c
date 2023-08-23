@@ -14,7 +14,6 @@ void K_User_Kernel_PP(int number_of_targets_in_batch, int number_of_source_point
 {
 
     double kernel_parameter=run_params->kernel_params[0];
-    printf("PP");
 
 #ifdef OPENACC_ENABLED
     #pragma acc kernels async(gpu_async_stream_id) present(target_x, target_y, target_z, \
