@@ -54,6 +54,7 @@ void K_User_Kernel_PP(int number_of_targets_in_batch, int number_of_source_point
             temp = ty * sz - tz * sy;
             temp *= 1.0 / (1 - tx * sx - ty * sy - tz * sz);
             temp *= source_charge[starting_index_of_source + j];
+            temp *= -1.0 / (4 * M_PI);
             temporary_potential += temp;
         } // end loop over interpolation points
 #ifdef OPENACC_ENABLED
