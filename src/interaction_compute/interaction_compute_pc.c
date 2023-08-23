@@ -57,7 +57,7 @@ void InteractionCompute_PC(double *potential, struct Tree *tree, struct Tree *ba
 
     int **approx_inter_list = interaction_list->pc_interactions;
     int **direct_inter_list = interaction_list->pp_interactions;
-    
+
     int *num_approx = interaction_list->num_pc;
     int *num_direct = interaction_list->num_pp;
 
@@ -98,7 +98,7 @@ void InteractionCompute_PC(double *potential, struct Tree *tree, struct Tree *ba
                 if (run_params->approximation == LAGRANGE) {
 
                     if (run_params->singularity == SKIPPING) {
-            
+
                         K_Coulomb_PC_Lagrange(num_targets_in_batch,
                                 interp_pts_per_cluster, batch_start, cluster_start,
                                 target_x, target_y, target_z,
@@ -165,7 +165,7 @@ void InteractionCompute_PC(double *potential, struct Tree *tree, struct Tree *ba
                                 run_params, potential, stream_id);
 
                     } else if (run_params->singularity == SUBTRACTION) {
-                        
+
                         K_Yukawa_SS_PC_Lagrange(num_targets_in_batch,
                                 interp_pts_per_cluster, batch_start, cluster_start,
                                 target_x, target_y, target_z, target_q,
@@ -428,7 +428,7 @@ void InteractionCompute_PC(double *potential, struct Tree *tree, struct Tree *ba
                         K_User_Kernel_PC_Lagrange(num_targets_in_batch,
                                     interp_pts_per_cluster, batch_start, cluster_start,
                                     target_x, target_y, target_z,
-                                    cluster_x, cluster_y, cluster_z, cluster_q,
+                                    cluster_x, cluster_y, cluster_z, cluster_q, cluster_w,
                                     run_params, potential, stream_id);
 
                 }
@@ -629,7 +629,7 @@ void InteractionCompute_PC(double *potential, struct Tree *tree, struct Tree *ba
                 K_User_Kernel_PP(num_targets_in_batch, num_sources_in_cluster,
                             batch_start, source_start,
                             target_x, target_y, target_z,
-                            source_x, source_y, source_z, source_q,
+                            source_x, source_y, source_z, source_q, source_w, 
                             run_params, potential, stream_id);
 
             } else {

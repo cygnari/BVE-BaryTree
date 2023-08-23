@@ -42,7 +42,7 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
 
     int source_tree_numnodes = source_tree->numnodes;
     int target_tree_numnodes = target_tree->numnodes;
-    
+
     int num_sources  = sources->num;
     double *source_x = sources->x;
     double *source_y = sources->y;
@@ -64,7 +64,7 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
     double *source_cluster_z = source_clusters->z;
     double *source_cluster_q = source_clusters->q;
     double *source_cluster_w = source_clusters->w;
-    
+
     int num_target_cluster_points  = target_clusters->num;
     int num_target_cluster_charges = target_clusters->num_charges;
     int num_target_cluster_weights = target_clusters->num_weights;
@@ -73,17 +73,17 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
     double *target_cluster_z = target_clusters->z;
     double *target_cluster_q = target_clusters->q;
     double *target_cluster_w = target_clusters->w;
-    
+
     int *source_tree_ibeg = source_tree->ibeg;
     int *source_tree_iend = source_tree->iend;
     int *source_tree_cluster_ind = source_tree->cluster_ind;
-    
+
     int *target_tree_ibeg = target_tree->ibeg;
     int *target_tree_iend = target_tree->iend;
     int *target_tree_cluster_ind = target_tree->cluster_ind;
-    
+
     // Additionally, not setup for Hermite either at the moment.
-        
+
     for (int i = 0; i < target_tree_numnodes; i++) {
         int target_ibeg = target_tree_ibeg[i];
         int target_iend = target_tree_iend[i];
@@ -91,10 +91,10 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
 
         int num_targets_in_cluster = target_iend - target_ibeg + 1;
         int target_start =  target_ibeg - 1;
-        
+
         int num_approx_in_cluster = num_approx[i];
         int num_direct_in_cluster = num_direct[i];
-        
+
         int num_source_approx_in_cluster = num_source_approx[i];
         int num_target_approx_in_cluster = num_target_approx[i];
 
@@ -117,7 +117,7 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
                 if (run_params->approximation == LAGRANGE) {
 
                     if (run_params->singularity == SKIPPING) {
-            
+
                         K_Coulomb_CP_Lagrange(interp_pts_per_cluster, interp_pts_per_cluster,
                             source_cluster_start, target_cluster_start,
                             source_cluster_x, source_cluster_y, source_cluster_z,
@@ -392,7 +392,7 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
                     K_User_Kernel_CP_Lagrange(interp_pts_per_cluster, interp_pts_per_cluster,
                         source_cluster_start, target_cluster_start,
                         source_cluster_x, source_cluster_y, source_cluster_z,
-                        source_cluster_q,
+                        source_cluster_q, source_cluster_w,
                         target_cluster_x, target_cluster_y, target_cluster_z,
                         target_cluster_q,
                         run_params, stream_id);
@@ -405,9 +405,9 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
             }
 
         } // end loop over cluster approximations
-        
-        
-        
+
+
+
 /* * ********************************************************/
 /* * ************ POTENTIAL FROM SOURCE APPROX (PC) *********/
 /* * ********************************************************/
@@ -425,7 +425,7 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
                 if (run_params->approximation == LAGRANGE) {
 
                     if (run_params->singularity == SKIPPING) {
-            
+
                         K_Coulomb_PC_Lagrange(num_targets_in_cluster, interp_pts_per_cluster,
                             target_start, source_cluster_start,
                             target_x, target_y, target_z,
@@ -693,7 +693,7 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
                             target_start, source_cluster_start,
                             target_x, target_y, target_z,
                             source_cluster_x, source_cluster_y, source_cluster_z,
-                            source_cluster_q,
+                            source_cluster_q, source_cluster_w,
                             run_params, potential, stream_id);
 
                 }
@@ -712,11 +712,11 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
 /* * ********************************************************/
 
         for (int j = 0; j < num_target_approx_in_cluster; j++) {
-        
+
             int source_node_index = target_approx_inter_list[i][j];
             int source_ibeg = source_tree_ibeg[source_node_index];
             int source_iend = source_tree_iend[source_node_index];
-            
+
             int num_sources_in_cluster = source_iend - source_ibeg + 1;
             int source_start =  source_ibeg - 1;
             int stream_id = j%3;
@@ -729,7 +729,7 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
                 if (run_params->approximation == LAGRANGE) {
 
                     if (run_params->singularity == SKIPPING) {
-            
+
                         K_Coulomb_CP_Lagrange(num_sources_in_cluster, interp_pts_per_cluster,
                             source_start, target_cluster_start,
                             source_x, source_y, source_z, source_q,
@@ -996,7 +996,7 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
 
                         K_User_Kernel_CP_Lagrange(num_sources_in_cluster, interp_pts_per_cluster,
                             source_start, target_cluster_start,
-                            source_x, source_y, source_z, source_q,
+                            source_x, source_y, source_z, source_q, source_w,
                             target_cluster_x, target_cluster_y, target_cluster_z,
                             target_cluster_q,
                             run_params, stream_id);
@@ -1021,7 +1021,7 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
             int source_node_index = direct_inter_list[i][j];
             int source_ibeg = source_tree_ibeg[source_node_index];
             int source_iend = source_tree_iend[source_node_index];
-            
+
             int num_sources_in_cluster = source_iend - source_ibeg + 1;
             int source_start =  source_ibeg - 1;
             int stream_id = j%3;
@@ -1190,7 +1190,7 @@ void InteractionCompute_CC(double *potential, struct Tree *source_tree, struct T
                     K_User_Kernel_PP(num_targets_in_cluster, num_sources_in_cluster,
                             target_start, source_start,
                             target_x, target_y, target_z,
-                            source_x, source_y, source_z, source_q,
+                            source_x, source_y, source_z, source_q, source_w, 
                             run_params, potential, stream_id);
                 }
 

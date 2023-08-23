@@ -214,7 +214,7 @@ void InteractionCompute_Direct(double *potential,
 
             K_User_Kernel_PP(num_targets, num_sources, 0, 0,
                         target_x, target_y, target_z,
-                        source_x, source_y, source_z, source_q,
+                        source_x, source_y, source_z, source_q, source_w,
                         run_params, potential, 0);
 
     } else {

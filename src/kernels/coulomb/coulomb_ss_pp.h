@@ -1,7 +1,7 @@
 /* Interaction Kernels */
 #ifndef H_K_COULOMB_SS_PP_H
 #define H_K_COULOMB_SS_PP_H
- 
+
 #include "../../run_params/struct_run_params.h"
 
 

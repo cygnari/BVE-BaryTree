@@ -9,7 +9,7 @@
 void K_User_Kernel_PC_Lagrange(int number_of_targets_in_batch, int number_of_interpolation_points_in_cluster,
         int starting_index_of_target, int starting_index_of_cluster,
         double *target_x, double *target_y, double *target_z,
-        double *cluster_x, double *cluster_y, double *cluster_z, double *cluster_charge,
+        double *cluster_x, double *cluster_y, double *cluster_z, double *cluster_charge, double *cluster_weight,
         struct RunParams *run_params, double *potential, int gpu_async_stream_id)
 {
 
@@ -45,6 +45,7 @@ void K_User_Kernel_PC_Lagrange(int number_of_targets_in_batch, int number_of_int
             temp *= 1.0 / (1 - tx * cx - ty * cy - tz * cz);
             temp *= cluster_charge[starting_index_of_cluster + j];
             temp *= -1.0 / (4 * M_PI);
+            temp *= cluster_weight[starting_index_of_cluster + j];
             // double dx = tx - cluster_x[starting_index_of_cluster + j];
             // double dy = ty - cluster_y[starting_index_of_cluster + j];
             // double dz = tz - cluster_z[starting_index_of_cluster + j];
