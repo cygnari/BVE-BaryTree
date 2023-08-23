@@ -14,6 +14,7 @@ void K_User_Kernel_PC_Lagrange(int number_of_targets_in_batch, int number_of_int
 {
 
     double kernel_parameter = run_params->kernel_params[0];
+    printf("PC");
 
 #ifdef OPENACC_ENABLED
     #pragma acc kernels async(gpu_async_stream_id) present(target_x, target_y, target_z, \
