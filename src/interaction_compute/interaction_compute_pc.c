@@ -428,7 +428,7 @@ void InteractionCompute_PC(double *potential, struct Tree *tree, struct Tree *ba
                         K_User_Kernel_PC_Lagrange(num_targets_in_batch,
                                     interp_pts_per_cluster, batch_start, cluster_start,
                                     target_x, target_y, target_z,
-                                    cluster_x, cluster_y, cluster_z, cluster_q, cluster_w,
+                                    cluster_x, cluster_y, cluster_z, cluster_q,
                                     run_params, potential, stream_id);
 
                 }
@@ -629,7 +629,7 @@ void InteractionCompute_PC(double *potential, struct Tree *tree, struct Tree *ba
                 K_User_Kernel_PP(num_targets_in_batch, num_sources_in_cluster,
                             batch_start, source_start,
                             target_x, target_y, target_z,
-                            source_x, source_y, source_z, source_q, source_w, 
+                            source_x, source_y, source_z, source_q, 
                             run_params, potential, stream_id);
 
             } else {
