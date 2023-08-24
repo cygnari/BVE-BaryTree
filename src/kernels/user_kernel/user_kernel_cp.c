@@ -8,7 +8,7 @@
 
 void K_User_Kernel_CP_Lagrange(int number_of_sources_in_batch, int number_of_interpolation_points_in_cluster,
          int starting_index_of_sources, int starting_index_of_cluster,
-         double *source_x, double *source_y, double *source_z, double *source_q, 
+         double *source_x, double *source_y, double *source_z, double *source_q,
          double *cluster_x, double *cluster_y, double *cluster_z, double *cluster_q,
          struct RunParams *run_params, int gpu_async_stream_id)
 {
@@ -51,7 +51,7 @@ void K_User_Kernel_CP_Lagrange(int number_of_sources_in_batch, int number_of_int
             temp *= 1.0 / (1 - cx * sx - cy * sy - cz * sz);
             temp *= source_q[jj];
             temp *= -1.0 / (4 * M_PI);
-            temp *= source_w[jj];
+            // temp *= source_w[jj];
             // double dx = cx - source_x[jj];
             // double dy = cy - source_y[jj];
             // double dz = cz - source_z[jj];

@@ -9,7 +9,7 @@
 void K_User_Kernel_PP(int number_of_targets_in_batch, int number_of_source_points_in_cluster,
         int starting_index_of_target, int starting_index_of_source,
         double *target_x, double *target_y, double *target_z,
-        double *source_x, double *source_y, double *source_z, double *source_charge, 
+        double *source_x, double *source_y, double *source_z, double *source_charge,
         struct RunParams *run_params, double *potential, int gpu_async_stream_id)
 {
 
@@ -55,7 +55,7 @@ void K_User_Kernel_PP(int number_of_targets_in_batch, int number_of_source_point
             temp *= 1.0 / (1 - tx * sx - ty * sy - tz * sz);
             temp *= source_charge[starting_index_of_source + j];
             temp *= -1.0 / (4 * M_PI);
-            temp *= source_weight[starting_index_of_source + j];
+            // temp *= source_weight[starting_index_of_source + j];
             temporary_potential += temp;
         } // end loop over interpolation points
 #ifdef OPENACC_ENABLED
