@@ -219,9 +219,9 @@ SET(SRCS_KERNELS ${SRCS_K_COULOMB}
 
 set(TRGT BaryTree_cpu)
 add_library(${TRGT} ${SRCS_TREEDRIVER} ${SRCS_KERNELS})
-target_sources(${TRGT}          PRIVATE 
+target_sources(${TRGT}          PRIVATE
                                     interface/BaryTreeInterface.c
-                                PUBLIC  
+                                PUBLIC
                                    ${CMAKE_CURRENT_SOURCE_DIR}/interface/BaryTreeInterface.h)
 set_target_properties(${TRGT}   PROPERTIES
                                     POSITION_INDEPENDENT_CODE ON)
@@ -245,7 +245,7 @@ if(ENABLE_GPU_BUILD)
     target_compile_definitions(${TRGT} PRIVATE OPENACC_ENABLED)
     target_sources(${TRGT}        PRIVATE
                                       interface/BaryTreeInterface.c
-                                  PUBLIC 
+                                  PUBLIC
                                       ${CMAKE_CURRENT_SOURCE_DIR}/interface/BaryTreeInterface.h)
     set_target_properties(${TRGT} PROPERTIES
                                       POSITION_INDEPENDENT_CODE ON)

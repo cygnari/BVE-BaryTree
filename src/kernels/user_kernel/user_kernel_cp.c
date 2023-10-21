@@ -47,8 +47,9 @@ void K_User_Kernel_CP_Lagrange(int number_of_sources_in_batch, int number_of_int
             double sx = source_x[jj];
             double sy = source_y[jj];
             double sz = source_z[jj];
+            double norm = pow(cx - sx, 2) + pow(cy - sy, 2) + pow(cz - sz, 2);
             temp = cy * sz - cz * sy;
-            temp *= 1.0 / (1 - cx * sx - cy * sy - cz * sz);
+            temp *= 1.0 / (0.5 * norm);
             temp *= source_q[jj];
             temp *= -1.0 / (4 * M_PI);
             // temp *= source_w[jj];

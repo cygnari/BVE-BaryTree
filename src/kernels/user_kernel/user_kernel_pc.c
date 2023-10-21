@@ -40,9 +40,10 @@ void K_User_Kernel_PC_Lagrange(int number_of_targets_in_batch, int number_of_int
             double cx = cluster_x[starting_index_of_cluster + j];
             double cy = cluster_y[starting_index_of_cluster + j];
             double cz = cluster_z[starting_index_of_cluster + j];
+            double norm = pow(cx - tx, 2) + pow(cy - ty, 2) + pow(cz - tz, 2);
 
             temp = ty * cz - tz * cy;
-            temp *= 1.0 / (1 - tx * cx - ty * cy - tz * cz);
+            temp *= 1.0 / (0.5 * norm);
             temp *= cluster_charge[starting_index_of_cluster + j];
             temp *= -1.0 / (4 * M_PI);
             // temp *= cluster_weight[starting_index_of_cluster + j];

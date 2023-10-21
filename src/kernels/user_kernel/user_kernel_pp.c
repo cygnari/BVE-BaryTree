@@ -50,9 +50,10 @@ void K_User_Kernel_PP(int number_of_targets_in_batch, int number_of_source_point
             double sx = source_x[starting_index_of_source + j];
             double sy = source_y[starting_index_of_source + j];
             double sz = source_z[starting_index_of_source + j];
+            double norm = pow(sx - tx, 2) + pow(sy - ty, 2) + pow(sz - tz, 2);
 
             temp = ty * sz - tz * sy;
-            temp *= 1.0 / (1 - tx * sx - ty * sy - tz * sz);
+            temp *= 1.0 / (0.5 * norm);
             temp *= source_charge[starting_index_of_source + j];
             temp *= -1.0 / (4 * M_PI);
             // temp *= source_weight[starting_index_of_source + j];
