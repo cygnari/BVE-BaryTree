@@ -332,7 +332,7 @@ void treedriver(struct Particles *sources, struct Particles *targets, struct Run
         time_tree[11] = time_tree[0] + time_tree[1] + time_tree[3] + time_tree[4] + time_tree[6];
 
         // Total compute time
-        time_tree[12] = time_tree[5] + time_tree[7] + time_tree[8];
+        time_tree[12] = time_tree[5] + time_tree[7] + time_tree[8] + time_tree[9];
 
 
 
@@ -622,7 +622,7 @@ void treedriver(struct Particles *sources, struct Particles *targets, struct Run
         time_tree[11] = time_tree[0] + time_tree[1] + time_tree[3] + time_tree[4] + time_tree[6];
 
         // Total compute time
-        time_tree[12] = time_tree[5] + time_tree[7] + time_tree[8];
+        time_tree[12] = time_tree[5] + time_tree[7] + time_tree[8] + time_tree[9];
 
         MPI_Barrier(MPI_COMM_WORLD);
 
@@ -961,7 +961,7 @@ void treedriver(struct Particles *sources, struct Particles *targets, struct Run
         time_tree[11] = time_tree[0] + time_tree[1] + time_tree[3] + time_tree[4] + time_tree[6];
 
         // Total compute time
-        time_tree[12] = time_tree[5] + time_tree[7] + time_tree[8];
+        time_tree[12] = time_tree[5] + time_tree[7] + time_tree[8] + time_tree[9];
 
         MPI_Barrier(MPI_COMM_WORLD);
     }
